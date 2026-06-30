@@ -1,6 +1,3 @@
-# **MML Transposer DOS (MMLTRDOS) — English README (Updated)**
-
-
 # MML Transposer DOS (MMLTRDOS)
 
 MMLTRDOS is the 16-bit real-mode MS-DOS edition of the MML Transposer tool.
