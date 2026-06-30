@@ -1,68 +1,101 @@
+# **MML Transposer DOS (MMLTRDOS) — English README (Updated)**
+
+
 # MML Transposer DOS (MMLTRDOS)
 
-NSF 用 MML ファイル移調ツール「MML Transposer」の  
-16bit リアルモード MS-DOS 版（CUI版）です。
+MMLTRDOS is the 16-bit real-mode MS-DOS edition of the MML Transposer tool.
+It transposes plain-text MML source files commonly used in NSF music
+creation. This program does not process NSF data directly.
 
-## 対応環境
+This edition uses the 16-bit optimized engine `mmleng16.c`, which maintains
+the same functional specifications as the Win32 version while minimizing
+memory usage for real-mode DOS environments.
 
-- 16bit リアルモード MS-DOS  
-- Windows 95 の MS-DOS モード（動作確認済み）
+## Supported Environment
 
-## エンジン構成
+- 16-bit Real Mode MS-DOS
+- Windows 95 MS-DOS mode (verified)
 
-- 16bit 向けにメモリ使用量を最適化したエンジン `mmleng16.c` を使用しています。
-
-## 使い方
+## Usage
 
 ```bash
 mmltrdos [options] <input.mml> [shift] [output.mml]
 ```
 
-### オプション
+## Options
 
-- `-i <file>` 入力ファイル  
-- `-o <file>` 出力ファイル  
-- `-s <shift>` 移調量（-12～+12、0 は移調なし、`+` は省略可）  
-- `-p`, `--pure` Pure モード（整形なし）  
-- `-f`, `--fmt` FMT モード（整形あり）  
-- `-r`, `--relative` 相対音域指定（先頭のみ `oX`、以降は `<` `>`）  
-- `-a`, `--absolute` 絶対音域指定（すべて `oX`）  
-- `-d`, `--dch` D チャンネル移調（ノイズ ch も移調量に応じて移調）  
-- `-h`, `--help` ヘルプを表示
+- `-i <file>`  
+  Specify input file.
 
-### 使用例
+- `-o <file>`  
+  Specify output file.
+
+- `-s <shift>`  
+  Transpose amount (-12 to +12).  
+  `0` means no transpose.  
+  Leading `+` is optional.
+
+- `-p`, `--pure`  
+  Pure mode (no formatting).
+
+- `-f`, `--fmt`  
+  FMT mode (formatted output).
+
+- `-r`, `--relative`  
+  Relative octave mode.  
+  First note uses `oX`, subsequent notes use `<` and `>`.
+
+- `-a`, `--absolute`  
+  Absolute octave mode (all notes use `oX`).
+
+- `-d`, `--dch`  
+  Transpose D-channel (noise channel included).  
+  The D-channel octave is always fixed to `o0`.
+
+- `-h`, `--help`  
+  Show English help (`/h`, `/?` also supported).
+
+- `-hjp`, `/hjp`  
+  Show Japanese help.
+
+## Examples
 
 ```bash
-mmltrd16 input.mml
-mmltrd16 input.mml output.mml
-mmltrd16 input.mml -s 0
-mmltrd16 input.mml 5
-mmltrd16 input.mml -2 output.mml -p
-mmltrd16 input.mml +3 output.mml -p -a
-mmltrd16 input.mml +7 output.mml -f
-mmltrd16 input.mml -5 output.mml -f -r -d
+mmltrdos input.mml
+mmltrdos input.mml output.mml
+mmltrdos input.mml -s 0
+mmltrdos input.mml 5
+mmltrdos input.mml -2 output.mml -p
+mmltrdos input.mml +3 output.mml -p -a
+mmltrdos input.mml +7 output.mml -f
+mmltrdos input.mml -5 output.mml -f -r -d
 ```
 
-### モード説明
+## Mode Description
 
-- **Pure / FMT モード**  
-  元の MML の意図を保ちながら、音符とオクターブを自動的に振り直します。  
-  - `-p` / `--pure` 整形なし  
-  - `-f` / `--fmt` 整形あり  
+### Pure / FMT Mode
+Notes and octaves are automatically reassigned while preserving the
+original intent of the MML.
 
-- **音域指定**  
-  - `-r` / `--relative` 相対音域（`<>`）  
-  - `-a` / `--absolute` 絶対音域（`oX`）  
-  これらは `-p` / `-f` と組み合わせて使用できます。
+- `-p` / `--pure` — no formatting  
+- `-f` / `--fmt` — formatted output
 
-- **D チャンネル移調**  
-  - `-d` / `--dch` を指定すると、ノイズチャンネルも移調します。  
-  - オクターブは `o0` 固定です。
+### Octave Mode
+- `-r` / `--relative` — relative octave (`<>`)  
+- `-a` / `--absolute` — absolute octave (`oX`)  
 
-## 備考
+These can be combined with Pure / FMT modes.
 
-このプログラムは NSF 用 MML 移調ツールです。  
-ヘルプは `mmltrd16 -h | more` でページ送りしながら読むことを推奨します。
+### D-Channel Transpose
+- `-d` / `--dch` transposes the D-channel (noise channel included).  
+- The D-channel octave is always fixed to `o0`.
 
-このコードは全て Copilot を活用して作成しています。  
-予期せぬ不具合はご容赦ください。
+## Notes
+
+- This program transposes MML source code used for NSF music creation.
+- For detailed help, use:
+  - `mmltrdos -h | more` — English help  
+  - `mmltrdos -hjp | more` — Japanese help
+
+All source code in this project was created with the assistance of Copilot.
+Unexpected issues may occur.
